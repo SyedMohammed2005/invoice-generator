@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Invoice History - Fashion Antique Cool Drinks</title>
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Source Code Pro', 'Courier New', monospace;
+    background: white;
+    padding: 20px;
+}
+
+.container {
+    max-width: 1200px;
+    margin: auto;
+    background: white;
+    padding: 25px;
+    border: 2px solid black;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    border-bottom: 2px solid black;
+    padding-bottom: 10px;
+}
+
+.top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+a {
+    text-decoration: none;
+    background: white;
+    color: black;
+    padding: 10px 20px;
+    border: 2px solid black;
+    font-weight: bold;
+}
+
+a:hover {
+    background: black;
+    color: white;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th {
+    background: white;
+    color: black;
+    border: 2px solid black;
+    padding: 12px;
+}
+
+td {
+    border: 1px solid black;
+    padding: 10px;
+    text-align: center;
+}
+
+tr:hover {
+    background: #f0f0f0;
+    cursor: pointer;
+}
+
+.no-data {
+    text-align: center;
+    padding: 40px;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.8);
+}
+
+.modal-content {
+    background-color: white;
+    margin: 5% auto;
+    padding: 20px;
+    border: 3px solid black;
+    width: 90%;
+    max-width: 800px;
+    max-height: 80%;
+    overflow-y: auto;
+}
+
+.close {
+    position: absolute;
+    right: 20px;
+    top: 10px;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close:hover {
+    color: red;
+}
+
+.btn {
+    background: white;
+    color: black;
+    border: 2px solid black;
+    padding: 8px 16px;
+    cursor: pointer;
+    font-family: monospace;
+    font-weight: bold;
+    margin: 5px;
+}
+
+.btn:hover {
+    background: black;
+    color: white;
+}
+
+.btn-whatsapp {
+    border-color: #25D366;
+    color: #25D366;
+}
+
+.btn-whatsapp:hover {
+    background: #25D366;
+    color: white;
+}
+
+@media (max-width: 768px) {
+    th, td {
+        font-size: 11px;
+        padding: 5px;
+    }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+    <div class="top-bar">
+        <h1>📜 INVOICE HISTORY</h1>
+        <a href="/">➕ NEW INVOICE</a>
+    </div>
+
+    <div style="margin-bottom: 15px;">
+        <input type="text" id="searchInput" placeholder="🔍 Search by invoice or customer..." style="width:100%; padding: 10px; border: 2px solid black; font-family: monospace;">
+    </div>
+
+    <table id="invoiceTable">
+        <thead>
+            <tr>
+                <th>INVOICE NO</th>
+                <th>CUSTOMER</th>
+                <th>DATE & TIME</th>
+                <th>PAYMENT MODE</th>
+                <th>TOTAL (₹)</th>
+                <th>ACTIONS</th>
+            </tr>
+        </thead>
+        <tbody id="invoiceBody"></tbody>
+    </table>
+</div>
+
+<div id="invoiceModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <div id="modalContent"></div>
+    </div>
+</div>
+
+<script>
+let allInvoices = [];
+
+function loadInvoices() {
+    allInvoices = JSON.parse(localStorage.getItem('invoices') || '[]');
+    displayInvoices(allInvoices);
+}
+
+function displayInvoices(invoices) {
+    const tbody = document.getElementById('invoiceBody');
+    
+    if (invoices.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="6" class="no-data">No invoices found. Create your first invoice!</td></tr>';
+        return;
+    }
+    
+    tbody.innerHTML = '';
+    
+    invoices.forEach(invoice => {
+        const row = tbody.insertRow();
+        row.insertCell(0).innerHTML = invoice.invoiceNo;
+        row.insertCell(1).innerHTML = invoice.customerName;
+        row.insertCell(2).innerHTML = invoice.date;
+        row.insertCell(3).innerHTML = invoice.paymentMode;
+        row.insertCell(4).innerHTML = `₹${invoice.subtotal.toFixed(2)}`;
+        row.insertCell(5).innerHTML = `
+            <button class="btn btn-whatsapp" onclick="shareOnWhatsApp(${invoice.id})">📱 WA</button>
+        `;
+        row.onclick = (e) => {
+            if (e.target.tagName !== 'BUTTON') {
+                showInvoiceDetails(invoice);
+            }
+        };
+    });
+}
+
+function searchInvoices() {
+    const term = document.getElementById('searchInput').value.toLowerCase();
+    if (!term) {
+        displayInvoices(allInvoices);
+        return;
+    }
+    const filtered = allInvoices.filter(i => 
+        i.invoiceNo.toLowerCase().includes(term) || 
+        i.customerName.toLowerCase().includes(term)
+    );
+    displayInvoices(filtered);
+}
+
+function shareOnWhatsApp(id) {
+    const invoice = allInvoices.find(i => i.id === id);
+    if (!invoice) return;
+    
+    let message = "🏪 *FASHION ANTIQUE COOL DRINKS* 🏪\n";
+    message += "━━━━━━━━━━━━━━━━━━━━\n";
+    message += `🧾 *Invoice No:* ${invoice.invoiceNo}\n`;
+    message += `👤 *Customer:* ${invoice.customerName}\n`;
+    message += `📅 *Date:* ${invoice.date}\n`;
+    message += `💳 *Payment:* ${invoice.paymentMode}\n`;
+    message += "━━━━━━━━━━━━━━━━━━━━\n";
+    message += "*Items:*\n";
+    
+    invoice.items.forEach(item => {
+        message += `• ${item.product} x${item.qty} = ₹${item.total.toFixed(2)}\n`;
+    });
+    
+    message += "━━━━━━━━━━━━━━━━━━━━\n";
+    message += `💰 *TOTAL: ₹${invoice.subtotal.toFixed(2)}*\n`;
+    message += "━━━━━━━━━━━━━━━━━━━━\n";
+    message += "✅ *Thank You! Visit Again* ✅";
+    
+    window.open(`https://wa.me/?text=${encodeURIComponent(message)}`, '_blank');
+}
+
+function showInvoiceDetails(invoice) {
+    const modal = document.getElementById('invoiceModal');
+    const modalContent = document.getElementById('modalContent');
+    
+    let itemsHtml = '<h3>Items:</h3><table style="width:100%; border-collapse: collapse;">';
+    itemsHtml += '<tr><th>Product</th><th>Qty</th><th>Price</th><th>Total</th></tr>';
+    invoice.items.forEach(item => {
+        itemsHtml += `<tr><td>${item.product}</td><td>${item.qty}</td><td>₹${item.price.toFixed(2)}</td><td>₹${item.total.toFixed(2)}</td></tr>`;
+    });
+    itemsHtml += '</table>';
+    
+    modalContent.innerHTML = `
+        <h2>INVOICE DETAILS</h2>
+        <div><strong>Invoice No:</strong> ${invoice.invoiceNo}</div>
+        <div><strong>Customer:</strong> ${invoice.customerName}</div>
+        <div><strong>Date:</strong> ${invoice.date}</div>
+        <div><strong>Payment Mode:</strong> ${invoice.paymentMode}</div>
+        ${itemsHtml}
+        <div style="margin-top:20px; font-size:20px;"><strong>TOTAL: ₹${invoice.subtotal.toFixed(2)}</strong></div>
+    `;
+    modal.style.display = 'block';
+}
+
+document.getElementById('searchInput').addEventListener('input', searchInvoices);
+
+const modal = document.getElementById('invoiceModal');
+const closeBtn = document.getElementsByClassName('close')[0];
+closeBtn.onclick = () => modal.style.display = "none";
+window.onclick = (event) => { if (event.target == modal) modal.style.display = "none"; }
+
+loadInvoices();
+</script>
+</body>
+</html>
