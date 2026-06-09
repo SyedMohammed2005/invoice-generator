@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<title>Fashion Antique Cool Drinks - Invoice</title>
+
+<style>
+/* Professional Invoice Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Source+Code+Pro:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Roboto+Mono:wght@300;400;500;600;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Source Code Pro', 'Courier New', 'IBM Plex Mono', monospace;
+    background: white;
+    padding: 20px;
+    font-weight: 500;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 0px;
+    box-shadow: none;
+    border: 2px solid black;
+}
+
+.invoice-header {
+    background: white;
+    color: black;
+    padding: 25px 20px;
+    text-align: center;
+    border-bottom: 2px solid black;
+}
+
+.invoice-header h1 {
+    font-family: 'Share Tech Mono', 'Courier New', monospace;
+    font-size: 26px;
+    letter-spacing: 3px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: black;
+}
+
+@media (min-width: 768px) {
+    .invoice-header h1 {
+        font-size: 34px;
+        letter-spacing: 5px;
+    }
+}
+
+.business-details {
+    margin-top: 12px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    line-height: 1.8;
+    letter-spacing: 0.5px;
+    color: black;
+}
+
+.udyam-number {
+    margin-top: 8px;
+    font-family: 'Courier New', monospace;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: black;
+    border-top: 1px dashed black;
+    padding-top: 8px;
+    display: inline-block;
+}
+
+@media (min-width: 768px) {
+    .business-details {
+        font-size: 13px;
+    }
+    .udyam-number {
+        font-size: 12px;
+    }
+}
+
+.invoice-content {
+    padding: 20px;
+}
+
+@media (min-width: 768px) {
+    .invoice-content {
+        padding: 30px;
+    }
+}
+
+.info-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+@media (min-width: 768px) {
+    .info-grid {
+        flex-direction: row;
+        justify-content: space-between;
+    }
+}
+
+.info-box {
+    flex: 1;
+    padding: 12px;
+    background: white;
+    border-left: 3px solid black;
+    border-top: 1px solid black;
+    border-right: 1px solid black;
+    border-bottom: 1px solid black;
+}
+
+.info-label {
+    font-family: 'Courier New', monospace;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: black;
+    margin-bottom: 6px;
+}
+
+.info-value {
+    font-family: 'Roboto Mono', monospace;
+    font-size: 14px;
+    font-weight: 600;
+    color: black;
+}
+
+@media (min-width: 768px) {
+    .info-value {
+        font-size: 16px;
+    }
+}
+
+input, select {
+    font-family: 'Roboto Mono', monospace;
+    font-size: 14px;
+    padding: 8px;
+    border: 1px solid black;
+    background: white;
+    width: 100%;
+    color: black;
+}
+
+@media (min-width: 768px) {
+    input, select {
+        font-size: 16px;
+        padding: 10px;
+    }
+}
+
+input:focus, select:focus {
+    outline: none;
+    border-color: black;
+    background: white;
+}
+
+.items-table {
+    width: 100%;
+    margin: 25px 0;
+    border-collapse: collapse;
+    font-size: 12px;
+}
+
+@media (min-width: 768px) {
+    .items-table {
+        font-size: 14px;
+    }
+}
+
+.items-table th {
+    background: white;
+    color: black;
+    font-family: 'Courier New', 'Source Code Pro', monospace;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 12px 8px;
+    border: 1px solid black;
+}
+
+.items-table td {
+    padding: 10px 8px;
+    border: 1px solid black;
+    font-family: 'Roboto Mono', monospace;
+    font-weight: 500;
+    color: black;
+}
+
+.items-table input {
+    width: 100%;
+    padding: 8px;
+    font-size: 12px;
+    border: 1px solid black;
+    background: white;
+    color: black;
+}
+
+@media (min-width: 768px) {
+    .items-table input {
+        font-size: 14px;
+        padding: 10px;
+    }
+}
+
+.total-section {
+    margin-top: 25px;
+    padding: 20px;
+    background: white;
+    border-top: 2px solid black;
+    border-bottom: 2px solid black;
+    text-align: right;
+}
+
+.total-label {
+    font-family: 'Courier New', monospace;
+    font-size: 16px;
+    letter-spacing: 2px;
+    margin-right: 20px;
+    color: black;
+}
+
+@media (min-width: 768px) {
+    .total-label {
+        font-size: 20px;
+    }
+}
+
+.total-value {
+    font-family: 'Share Tech Mono', monospace;
+    color: black;
+    font-weight: 800;
+    font-size: 20px;
+}
+
+@media (min-width: 768px) {
+    .total-value {
+        font-size: 28px;
+    }
+}
+
+.action-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin: 25px 0 20px;
+}
+
+@media (min-width: 640px) {
+    .action-buttons {
+        flex-direction: row;
+        justify-content: center;
+    }
+}
+
+.btn {
+    padding: 12px 24px;
+    font-family: 'Courier New', monospace;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    border: 2px solid black;
+    cursor: pointer;
+    transition: all 0.2s;
+    background: white;
+    color: black;
+}
+
+@media (min-width: 768px) {
+    .btn {
+        padding: 14px 28px;
+        font-size: 15px;
+    }
+}
+
+.btn:hover {
+    background: black;
+    color: white;
+}
+
+.btn-add {
+    background: white;
+    color: black;
+    border: 2px solid black;
+    margin-bottom: 10px;
+    width: 100%;
+}
+
+@media (min-width: 640px) {
+    .btn-add {
+        width: auto;
+    }
+}
+
+.invoice-footer {
+    background: white;
+    color: black;
+    text-align: center;
+    padding: 20px;
+    font-family: 'Share Tech Mono', monospace;
+    border-top: 2px solid black;
+}
+
+.invoice-footer h3 {
+    font-size: 14px;
+    letter-spacing: 2px;
+    margin-bottom: 8px;
+    color: black;
+}
+
+@media (min-width: 768px) {
+    .invoice-footer h3 {
+        font-size: 18px;
+    }
+}
+
+.invoice-footer p {
+    font-size: 11px;
+    font-family: 'IBM Plex Mono', monospace;
+    color: black;
+}
+
+.datetime-section {
+    padding: 15px 20px;
+    background: white;
+    color: black;
+    text-align: center;
+    border-top: 2px solid black;
+}
+
+.datetime-section label {
+    font-family: 'Courier New', monospace;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    margin-right: 10px;
+    display: inline-block;
+    margin-bottom: 8px;
+    color: black;
+}
+
+.datetime-section input {
+    font-family: 'Roboto Mono', monospace;
+    font-size: 12px;
+    padding: 8px 12px;
+    background: white;
+    color: black;
+    border: 2px solid black;
+    border-radius: 0px;
+    cursor: pointer;
+    width: auto;
+    display: inline-block;
+}
+
+@media (min-width: 768px) {
+    .datetime-section label {
+        font-size: 13px;
+        margin-right: 15px;
+        margin-bottom: 0;
+    }
+    .datetime-section input {
+        font-size: 13px;
+        padding: 8px 15px;
+    }
+}
+
+@media print {
+    body {
+        background: white;
+        padding: 0;
+        margin: 0;
+    }
+    
+    .container {
+        box-shadow: none;
+        border: 2px solid black;
+    }
+    
+    .action-buttons,
+    .btn-add,
+    .datetime-section {
+        display: none;
+    }
+    
+    .items-table input {
+        border: none;
+        background: transparent;
+        padding: 0;
+    }
+}
+
+@media (max-width: 640px) {
+    .items-table th,
+    .items-table td {
+        white-space: nowrap;
+    }
+    
+    input, select, .btn {
+        font-size: 16px;
+    }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+    <div class="invoice-header">
+        <h1>FASHION ANTIQUE<br>COOL DRINKS</h1>
+        <div class="business-details">
+            19-2-218, Opp. Nehru Zoo Park, Bahadurpura<br>
+            Hyderabad, Telangana - 500064
+        </div>
+        <div class="udyam-number">
+            UDYAM Reg No : TS-02-0323195
+        </div>
+    </div>
+
+    <div class="invoice-content">
+        <div class="info-grid">
+            <div class="info-box">
+                <div class="info-label">INVOICE NUMBER</div>
+                <div class="info-value" id="invoiceNo">Loading...</div>
+            </div>
+            <div class="info-box">
+                <div class="info-label">CUSTOMER NAME</div>
+                <input type="text" id="customerName" placeholder="Walk-in Customer">
+            </div>
+            <div class="info-box">
+                <div class="info-label">PAYMENT MODE</div>
+                <select id="paymentMode">
+                    <option>Cash Paid</option>
+                    <option>UPI</option>
+                </select>
+            </div>
+        </div>
+
+        <table class="items-table" id="invoiceTable">
+            <thead>
+                <tr>
+                    <th style="width:40%">PRODUCT</th>
+                    <th style="width:20%">QTY</th>
+                    <th style="width:20%">PRICE (₹)</th>
+                    <th style="width:20%">TOTAL (₹)</th>
+                </tr>
+            </thead>
+            <tbody id="tableBody">
+                <tr>
+                    <td><input type="text" class="product" placeholder="Product name"></td>
+                    <td><input type="number" min="1" class="qty" value="1"></td>
+                    <td><input type="number" min="0" class="price" value="0"></td>
+                    <td class="rowTotal">0.00</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <button class="btn btn-add" onclick="addRow()">+ ADD PRODUCT</button>
+
+        <div class="total-section">
+            <span class="total-label">TOTAL AMOUNT :</span>
+            <span class="total-value">₹ <span id="totalAmount">0.00</span></span>
+        </div>
+
+        <div class="action-buttons">
+            <button class="btn" onclick="saveInvoice()">💾 SAVE</button>
+            <button class="btn" onclick="viewHistory()">📜 HISTORY</button>
+            <button class="btn" onclick="window.print()">🖨️ PRINT</button>
+            <button class="btn" onclick="clearInvoice()">➕ NEW</button>
+        </div>
+    </div>
+
+    <div class="invoice-footer">
+        <h3>THANK YOU FOR VISITING!</h3>
+        <p>Please visit again | Fresh & Chilled Drinks</p>
+    </div>
+
+    <div class="datetime-section">
+        <label>DATE & TIME :</label>
+        <input type="datetime-local" id="dateTime">
+    </div>
+</div>
+
+<script>
+// Generate invoice number from localStorage
+function generateInvoiceNumber() {
+    let invoices = JSON.parse(localStorage.getItem('invoices') || '[]');
+    const count = invoices.length;
+    const invoiceNo = "FACD-" + String(count + 1).padStart(4, "0");
+    return invoiceNo;
+}
+
+// Set current date/time
+function setCurrentDateTime() {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const day = String(now.getDate()).padStart(2, '0');
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    const dateTimeString = `${year}-${month}-${day}T${hours}:${minutes}`;
+    document.getElementById('dateTime').value = dateTimeString;
+}
+
+// Initialize
+document.getElementById('invoiceNo').innerText = generateInvoiceNumber();
+setCurrentDateTime();
+
+// Add new row
+function addRow() {
+    const tbody = document.getElementById('tableBody');
+    const newRow = document.createElement('tr');
+    newRow.innerHTML = `
+        <td><input type="text" class="product" placeholder="Product name"></td>
+        <td><input type="number" min="1" class="qty" value="1"></td>
+        <td><input type="number" min="0" class="price" value="0"></td>
+        <td class="rowTotal">0.00</td>
+    `;
+    tbody.appendChild(newRow);
+    attachEvents();
+}
+
+// Attach calculation events
+function attachEvents() {
+    document.querySelectorAll('.qty, .price').forEach(input => {
+        input.removeEventListener('input', calculateTotal);
+        input.addEventListener('input', calculateTotal);
+    });
+}
+
+// Calculate total
+function calculateTotal() {
+    let total = 0;
+    const rows = document.querySelectorAll('#tableBody tr');
+    
+    rows.forEach(row => {
+        const qty = parseFloat(row.querySelector('.qty')?.value) || 0;
+        const price = parseFloat(row.querySelector('.price')?.value) || 0;
+        const rowTotal = qty * price;
+        const totalCell = row.querySelector('.rowTotal');
+        if (totalCell) totalCell.innerText = rowTotal.toFixed(2);
+        total += rowTotal;
+    });
+    
+    document.getElementById('totalAmount').innerText = total.toFixed(2);
+}
+
+// Clear invoice
+function clearInvoice() {
+    if (confirm('Create new invoice?')) {
+        document.getElementById('customerName').value = '';
+        document.getElementById('paymentMode').selectedIndex = 0;
+        document.getElementById('invoiceNo').innerText = generateInvoiceNumber();
+        setCurrentDateTime();
+        
+        const tbody = document.getElementById('tableBody');
+        tbody.innerHTML = `
+            <tr>
+                <td><input type="text" class="product" placeholder="Product name"></td>
+                <td><input type="number" min="1" class="qty" value="1"></td>
+                <td><input type="number" min="0" class="price" value="0"></td>
+                <td class="rowTotal">0.00</td>
+            </tr>
+        `;
+        attachEvents();
+        calculateTotal();
+    }
+}
+
+// View history page
+function viewHistory() {
+    window.location.href = 'history.html';
+}
+
+// Save invoice to localStorage
+function saveInvoice() {
+    calculateTotal();
+    
+    const items = [];
+    const rows = document.querySelectorAll('#tableBody tr');
+    let hasValidItem = false;
+    
+    for (const row of rows) {
+        const product = row.querySelector('.product')?.value.trim();
+        const qty = parseFloat(row.querySelector('.qty')?.value) || 0;
+        const price = parseFloat(row.querySelector('.price')?.value) || 0;
+        const total = qty * price;
+        
+        if (product && product !== '' && qty > 0) {
+            hasValidItem = true;
+            items.push({ product, qty, price, total });
+        }
+    }
+    
+    if (!hasValidItem) {
+        alert('❌ Please add at least one product with quantity!');
+        return;
+    }
+    
+    const dateTimeValue = document.getElementById('dateTime').value;
+    let formattedDate = dateTimeValue;
+    if (dateTimeValue) {
+        const dateObj = new Date(dateTimeValue);
+        formattedDate = dateObj.toLocaleString();
+    }
+    
+    const invoiceData = {
+        id: Date.now(),
+        invoiceNo: document.getElementById('invoiceNo').innerText,
+        customerName: document.getElementById('customerName').value.trim() || 'Walk-in Customer',
+        date: formattedDate,
+        paymentMode: document.getElementById('paymentMode').value,
+        items: items,
+        subtotal: parseFloat(document.getElementById('totalAmount').innerText),
+        createdAt: new Date().toISOString()
+    };
+    
+    // Get existing invoices from localStorage
+    let invoices = JSON.parse(localStorage.getItem('invoices') || '[]');
+    invoices.push(invoiceData);
+    localStorage.setItem('invoices', JSON.stringify(invoices));
+    
+    alert(`✅ Invoice Saved Successfully to Browser!\n\nInvoice No: ${invoiceData.invoiceNo}\nCustomer: ${invoiceData.customerName}\nTotal: ₹${invoiceData.subtotal.toFixed(2)}\nItems: ${items.length}`);
+    
+    if (confirm('Print this invoice?')) {
+        window.print();
+    }
+    
+    clearInvoice();
+}
+
+// Initialize
+attachEvents();
+calculateTotal();
+</script>
+</body>
+</html>
